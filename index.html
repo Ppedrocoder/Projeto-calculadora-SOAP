@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora SOAP</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header>
+  <h1>Calculadora <span>SOAP</span></h1>
+</header>
+
+<div class="card">
+  <div class="card-title">operação</div>
+  <div class="inputs">
+    <div class="field">
+      <label>VALOR A</label>
+      <input type="number" id="a" value="5" step="any"/>
+    </div>
+    <div class="field">
+      <label>VALOR B</label>
+      <input type="number" id="b" value="3" step="any"/>
+    </div>
+  </div>
+  <div class="btns">
+    <button class="btn-somar" onclick="chamar('somar')">Somar</button>
+    <button class="btn-mult"  onclick="chamar('multiplicar')">Multiplicar</button>
+    <button class="btn-div"   onclick="chamar('dividir')">Dividir</button>
+    <button class="btn-sub"   onclick="chamar('subtrair')">Subtrair</button>
+  </div>
+  <div class="result-box" id="result-box">
+    <span class="result-op" id="result-op"></span>
+    <span class="result-val" id="result-val"></span>
+  </div>
+</div>
+
+<div class="xml-panel">
+  <div class="tabs">
+    <div class="tab active" onclick="trocarTab('enviado', this)">
+      <span class="status-dot" id="dot-enviado"></span>XML Enviado
+    </div>
+    <div class="tab" onclick="trocarTab('recebido', this)">
+      <span class="status-dot" id="dot-recebido"></span>XML Recebido
+    </div>
+  </div>
+  <div class="xml-card">
+    <div class="xml-block active" id="xml-enviado">
+      <pre><span class="placeholder">// Nenhuma operação realizada ainda</span></pre>
+    </div>
+    <div class="xml-block" id="xml-recebido">
+      <pre><span class="placeholder">// Nenhuma operação realizada ainda</span></pre>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>:8000</span> API SOAP Python &nbsp;→&nbsp;
+  <span>:3000</span> Cliente Node.js &nbsp;→&nbsp;
+  <span>:5500</span> Frontend HTML
+</footer>
+
+<script>
+  function trocarTab(nome, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.xml-block').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('xml-' + nome).classList.add('active');
+  }
+
+  // Coloriza o XML pra ficar legível
+  function colorirXml(xml) {
+    // Indenta
+    let indent = 0;
+    const lines = xml
+      .replace(/></g, '>\n<')
+      .replace(/>\s*([^<\n]+)\s*\n</g, '>$1\n<')
+      .split('\n')
+      .map(line => {
+        line = line.trim();
+        if (!line) return '';
+        if (line.startsWith('</')) indent = Math.max(0, indent - 1);
+        const pad = '  '.repeat(indent);
+        if (!line.startsWith('</') && !line.endsWith('/>') && line.includes('<') && !line.includes('</')) indent++;
+        return pad + line;
+      })
+      .filter(Boolean);
+
+    return lines
+      .join('\n')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      // Coloriza tags de fechamento
+      .replace(/(&lt;\/[\w:.-]+&gt;)/g, '<span class="xml-tag">$1</span>')
+      // Coloriza atributos e seus valores
+      .replace(/([\w:]+)=(&quot;[^"]*&quot;|"[^"]*")/g,
+        '<span class="xml-attr">$1</span>=<span class="xml-val">$2</span>')
+      // Coloriza tags de abertura
+      .replace(/(&lt;[\w:.-]+(?:\s[^&]*)?(?:\/?&gt;))/g, '<span class="xml-tag">$1</span>')
+      // Coloriza texto entre tags
+      .replace(/(&gt;)([^&<\n]+)(&lt;)/g,
+        '$1<span class="xml-text">$2</span>$3');
+  }
+
+  async function chamar(operacao) {
+    const a = parseFloat(document.getElementById('a').value);
+    const b = parseFloat(document.getElementById('b').value);
+
+    document.querySelectorAll('button').forEach(b => b.disabled = true);
+
+    try {
+      const res = await fetch(`http://localhost:3000/${operacao}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ a, b }),
+      });
+
+      const dados = await res.json();
+
+      // Resultado
+      const simbolo = operacao === 'somar' ? '+' : '×';
+      document.getElementById('result-op').textContent = `${a} ${simbolo} ${b} =`;
+      document.getElementById('result-val').textContent = dados.resultado;
+      document.getElementById('result-box').classList.add('visible');
+
+      // XML
+      document.getElementById('xml-enviado').innerHTML =
+        `<pre>${colorirXml(dados.xmlEnviado)}</pre>`;
+      document.getElementById('xml-recebido').innerHTML =
+        `<pre>${colorirXml(dados.xmlRecebido)}</pre>`;
+
+      // Dots ativos
+      document.getElementById('dot-enviado').classList.add('active');
+      document.getElementById('dot-recebido').classList.add('active');
+
+    } catch (err) {
+      document.getElementById('result-op').textContent = 'erro';
+      document.getElementById('result-val').textContent = ':(';
+      document.getElementById('result-box').classList.add('visible');
+      document.getElementById('xml-enviado').innerHTML =
+        `<pre><span class="placeholder">${err.message}\n\nVerifique se a API (:8000) e o cliente (:3000) estão rodando.</span></pre>`;
+    } finally {
+      document.querySelectorAll('button').forEach(b => b.disabled = false);
+    }
+  }
+</script>
+</body>
+</html>

@@ -56,3 +56,5 @@ npx live-server frontend
 |---------------|------------|---------|
 | `somar`       | a, b       | Float   |
 | `multiplicar` | a, b       | Float   |
+| `dividir`     | a, b       | Float   |
+| `subtrair`    | a, b       | Float   |

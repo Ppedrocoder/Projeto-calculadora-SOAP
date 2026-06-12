@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="a44e390b-2948-4b30-87d2-03c3b995fcdb" activeEnvironment="Default" name="calculadora soap" resourceRoot="${projectDir}" soapui-version="5.10.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="4b69ddbd-4fa8-4b98-9451-50c4e3afeae5" wsaVersion="NONE" name="Application" type="wsdl" bindingName="{calculadora.soap}Application" soapVersion="1_1" anonymous="optional" definition="http://localhost:8000/?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8000/?wsdl"><con:part><con:url>http://localhost:8000/?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="calculadora.soap" name="Application" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:plink="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:wsdlsoap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdlsoap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap11enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap11env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap12env="http://www.w3.org/2003/05/soap-envelope" xmlns:soap12enc="http://www.w3.org/2003/05/soap-encoding" xmlns:wsa="http://schemas.xmlsoap.org/ws/2003/03/addressing" xmlns:xop="http://www.w3.org/2004/08/xop/include" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="calculadora.soap">
+  <wsdl:types>
+    <xs:schema targetNamespace="calculadora.soap" elementFormDefault="qualified">
+      <xs:complexType name="dividir">
+        <xs:sequence>
+          <xs:element name="a" type="xs:float" minOccurs="0" nillable="true"/>
+          <xs:element name="b" type="xs:float" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="dividirResponse">
+        <xs:sequence>
+          <xs:element name="dividirResult" type="xs:float" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="multiplicar">
+        <xs:sequence>
+          <xs:element name="a" type="xs:float" minOccurs="0" nillable="true"/>
+          <xs:element name="b" type="xs:float" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="multiplicarResponse">
+        <xs:sequence>
+          <xs:element name="multiplicarResult" type="xs:float" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="somar">
+        <xs:sequence>
+          <xs:element name="a" type="xs:float" minOccurs="0" nillable="true"/>
+          <xs:element name="b" type="xs:float" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="somarResponse">
+        <xs:sequence>
+          <xs:element name="somarResult" type="xs:float" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="subtrair">
+        <xs:sequence>
+          <xs:element name="a" type="xs:float" minOccurs="0" nillable="true"/>
+          <xs:element name="b" type="xs:float" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="subtrairResponse">
+        <xs:sequence>
+          <xs:element name="subtrairResult" type="xs:float" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="dividir" type="tns:dividir"/>
+      <xs:element name="dividirResponse" type="tns:dividirResponse"/>
+      <xs:element name="multiplicar" type="tns:multiplicar"/>
+      <xs:element name="multiplicarResponse" type="tns:multiplicarResponse"/>
+      <xs:element name="somar" type="tns:somar"/>
+      <xs:element name="somarResponse" type="tns:somarResponse"/>
+      <xs:element name="subtrair" type="tns:subtrair"/>
+      <xs:element name="subtrairResponse" type="tns:subtrairResponse"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="somar">
+    <wsdl:part name="somar" element="tns:somar"/>
+  </wsdl:message>
+  <wsdl:message name="somarResponse">
+    <wsdl:part name="somarResponse" element="tns:somarResponse"/>
+  </wsdl:message>
+  <wsdl:message name="multiplicar">
+    <wsdl:part name="multiplicar" element="tns:multiplicar"/>
+  </wsdl:message>
+  <wsdl:message name="multiplicarResponse">
+    <wsdl:part name="multiplicarResponse" element="tns:multiplicarResponse"/>
+  </wsdl:message>
+  <wsdl:message name="dividir">
+    <wsdl:part name="dividir" element="tns:dividir"/>
+  </wsdl:message>
+  <wsdl:message name="dividirResponse">
+    <wsdl:part name="dividirResponse" element="tns:dividirResponse"/>
+  </wsdl:message>
+  <wsdl:message name="subtrair">
+    <wsdl:part name="subtrair" element="tns:subtrair"/>
+  </wsdl:message>
+  <wsdl:message name="subtrairResponse">
+    <wsdl:part name="subtrairResponse" element="tns:subtrairResponse"/>
+  </wsdl:message>
+  <wsdl:service name="CalculadoraService">
+    <wsdl:port name="Application" binding="tns:Application">
+      <wsdlsoap11:address location="http://localhost:8000/"/>
+    </wsdl:port>
+  </wsdl:service>
+  <wsdl:portType name="Application">
+    <wsdl:operation name="somar" parameterOrder="somar">
+      <wsdl:input name="somar" message="tns:somar"/>
+      <wsdl:output name="somarResponse" message="tns:somarResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="multiplicar" parameterOrder="multiplicar">
+      <wsdl:input name="multiplicar" message="tns:multiplicar"/>
+      <wsdl:output name="multiplicarResponse" message="tns:multiplicarResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="dividir" parameterOrder="dividir">
+      <wsdl:input name="dividir" message="tns:dividir"/>
+      <wsdl:output name="dividirResponse" message="tns:dividirResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="subtrair" parameterOrder="subtrair">
+      <wsdl:input name="subtrair" message="tns:subtrair"/>
+      <wsdl:output name="subtrairResponse" message="tns:subtrairResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Application" type="tns:Application">
+    <wsdlsoap11:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="somar">
+      <wsdlsoap11:operation soapAction="somar" style="document"/>
+      <wsdl:input name="somar">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="somarResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="multiplicar">
+      <wsdlsoap11:operation soapAction="multiplicar" style="document"/>
+      <wsdl:input name="multiplicar">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="multiplicarResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="dividir">
+      <wsdlsoap11:operation soapAction="dividir" style="document"/>
+      <wsdl:input name="dividir">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="dividirResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="subtrair">
+      <wsdlsoap11:operation soapAction="subtrair" style="document"/>
+      <wsdl:input name="subtrair">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="subtrairResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8000/</con:endpoint></con:endpoints><con:operation id="b068285d-fbea-47d7-ac2f-8ddd4df78d0c" isOneWay="false" action="dividir" name="dividir" bindingOperationName="dividir" type="Request-Response" outputName="dividirResponse" inputName="dividir" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="35ceeb5f-c19a-4604-af4c-748aa7a3a114" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cal="calculadora.soap">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <cal:dividir>\r
+         <!--Optional:-->\r
+         <cal:a>10</cal:a>\r
+         <!--Optional:-->\r
+         <cal:b>2</cal:b>\r
+      </cal:dividir>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="dividir"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="18ac4376-5af7-4525-acfe-e715215219ad" isOneWay="false" action="multiplicar" name="multiplicar" bindingOperationName="multiplicar" type="Request-Response" outputName="multiplicarResponse" inputName="multiplicar" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="896f03ea-522a-4b49-b9c7-2d3b6777fc6f" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cal="calculadora.soap">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <cal:multiplicar>\r
+         <!--Optional:-->\r
+         <cal:a>?</cal:a>\r
+         <!--Optional:-->\r
+         <cal:b>?</cal:b>\r
+      </cal:multiplicar>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="multiplicar"/></con:call></con:operation><con:operation id="9229054f-972f-411a-9f4d-ee66351e37ea" isOneWay="false" action="somar" name="somar" bindingOperationName="somar" type="Request-Response" outputName="somarResponse" inputName="somar" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="9829a132-409f-408b-95f1-ad816ef0a664" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cal="calculadora.soap">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <cal:somar>\r
+         <!--Optional:-->\r
+         <cal:a>?</cal:a>\r
+         <!--Optional:-->\r
+         <cal:b>?</cal:b>\r
+      </cal:somar>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="somar"/></con:call></con:operation><con:operation id="720e2584-44fe-4394-b099-08725c3fed04" isOneWay="false" action="subtrair" name="subtrair" bindingOperationName="subtrair" type="Request-Response" outputName="subtrairResponse" inputName="subtrair" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="89598c0d-4e1c-4d78-b717-061c5d6f4813" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cal="calculadora.soap">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <cal:subtrair>\r
+         <!--Optional:-->\r
+         <cal:a>?</cal:a>\r
+         <!--Optional:-->\r
+         <cal:b>?</cal:b>\r
+      </cal:subtrair>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="subtrair"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

@@ -18,7 +18,6 @@ Abra 3 terminais separados.
 ### Terminal 1 — API SOAP (Python)
 
 ```bash
-cd api
 pip install -r requirements.txt
 python server.py
 ```
@@ -28,7 +27,6 @@ Acesse http://localhost:8000/?wsdl para ver o WSDL gerado.
 ### Terminal 2 — Cliente Node.js
 
 ```bash
-cd cliente
 npm install
 node index.js
 ```
